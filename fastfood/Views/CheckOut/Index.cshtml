@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "CheckOut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using fastfood.Models.CheckOut;
+@model CheckView
+
+<section class="checkout spad">
+    <div class="container">
+
+        <div class="checkout__form">
+            <h4>Hóa đơn thanh toán</h4>
+            <form asp-action="Index" method="post">
+                
+                <div class="row">
+                    <div class="col-lg-8 col-md-6">
+
+                        
+                                <div class="checkout__input">
+                                    <p>Tên khách hàng<span></span></p>
+                                    <input type="text" value="@Model.Customer?.CusName " name="fullname" class="checkout__input__add">
+                                </div>
+                           
+
+                        <div class="checkout__input">
+                            <p>Địa chỉ<span></span></p>
+                            <input type="text" name="diachi"  class="checkout__input__add" value="@Model.Customer?.Address  ">
+                        </div>
+
+                        <div class="checkout__input">
+                            <p>Lưu ý<span></span></p>
+                            <input type="text" name="note">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Số điện thoại<span></span></p>
+                                    <input type="text" name="sdt" class="checkout__input__add" value="@Model.Customer?.Phone ">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="checkout__order">
+                            <h4>Đơn hàng của bạn</h4>
+                            <div class="checkout__order__products">Món <span>Thành tiền</span></div>
+                            <ul>
+                                @if (Model.Cart != null)
+                                {
+                                    @foreach (var line in Model.Cart.Lines)
+                                    {
+                                        <li>@line.Product.ProName <span>@line.Product.Price VND</span></li>
+                                    }
+                                }
+                            </ul>
+                            <div class="checkout__order__subtotal">Tổng tiền <span>@Model.Cart?.ComputeTotalValue() VND</span></div>
+                            <div class="checkout__order__total">Phí Giao hàng <span>20000 VND</span></div>
+                            <div class="checkout__order__total">Tổng <span>@(Model.Cart?.ComputeTotalValue() + 20000) VND</span></div>
+                            <div class="checkout__input__checkbox"></div>
+                            <button asp-action="Index" asp-controller="Cart" class="site-btn">Thay đổi sản phẩm</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="site-btn">Thanh Toán</button>
+            </form>
+        </div>
+    </div>
+</section>

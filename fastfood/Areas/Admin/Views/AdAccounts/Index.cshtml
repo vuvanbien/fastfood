@@ -1,0 +1,71 @@
+﻿@model IEnumerable<fastfood.Models.Account>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Tài khoản</h1>
+
+<div class="d-flex justify-content-between mb-3">
+    <a class="btn btn-primary" asp-action="Create">Thêm mới tài khoản</a>
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+               Mã tài khoản
+            </th>
+            <th>
+               Tên đăng nhập
+            </th>
+            <th>
+                Mật khẩu
+            </th>
+            <th>
+               Tên người dùng
+            </th>
+            <th>
+               Trạng thái
+            </th>
+            <th>
+                Loại tài khoản
+            </th>
+            <th>
+                Chức năng
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cus.CusName)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Role.RoleName)
+            </td>
+                <td>
+
+                    <a class="btn btn-success btn-tone m-r-5" asp-action="Details" asp-route-id="@item.AccountId">Chi tiết</a>
+                    <a class="btn btn-warning btn-tone m-r-5" asp-action="Edit" asp-route-id="@item.AccountId">Sửa</a>
+                    <a class="btn btn-danger btn-tone m-r-5" asp-action="Delete" asp-route-id="@item.AccountId">Xóa</a>
+                </td>
+        </tr>
+}
+    </tbody>
+</table>

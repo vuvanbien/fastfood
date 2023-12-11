@@ -1,0 +1,17 @@
+﻿@model fastfood.Models.Role
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<h3>Bạn có muốn xóa loại tài khoản?</h3>
+<div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="RoleId" />
+        <input type="submit" value="Xóa" class="btn btn-danger" /> |
+        <a asp-action="Index">Quay lại</a>
+    </form>
+</div>

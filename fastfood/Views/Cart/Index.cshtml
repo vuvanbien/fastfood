@@ -1,0 +1,87 @@
+﻿
+@model Cart
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2 style="text-align: center; font-weight: bold;">Giỏ Hàng</h2>
+
+
+<!-- Shoping Cart Section Begin -->
+<section class="shoping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="shoping__product">Món</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          @if (Model != null)
+                            @foreach(var line in Model.Lines)
+                            {
+                                <tr>
+                                    <td class="shoping__cart__item">
+                                        <img src="@Url.Content("~/images/products/" + line.Product.Thumb)" alt="" width="100">
+                                        <h5>@line.Product.ProName</h5>
+                                    </td>
+                                    <td class="shoping__cart__price">
+                                       @line.Product.Price VND
+                                    </td>
+                                        <td class="shoping__cart__quantity">
+                                            <div class="quantity">
+                                                <div class="pro-qty">
+                                                    
+                                                    <input type="text" value="@line.Quantity">
+                                                   
+                                                </div>
+                                            </div>
+                                        </td>
+                                    <td class="shoping__cart__total">
+                                       @(line.Product.Price * line.Quantity) VND
+                                    </td>
+                                    <td class="shoping__cart__item__close">
+                                            <a asp-controller="Cart" asp-action="Remove" asp-route-ProId="@line.Product.ProId"><span class="icon_close"></span></a>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <p>Không thể thêm sản phẩm vào giỏ hàng.</p>
+                            }
+                            
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            
+            
+            <div class="col-lg-6">
+                <div class="shoping__checkout">
+                    <h5>Cart Total</h5>
+                    <ul>
+                        
+                        <li>Tổng tiền <span>@Model?.ComputeTotalValue() VND</span></li>
+                        <li>Phí giao hàng <span>20000 VND </span></li>
+                        <li>Tổng<span>@(Model?.ComputeTotalValue() + 20000) VND</span></li>
+                    </ul>
+                    <a asp-action="Index" asp-controller="CheckOut" class="primary-btn">Mua hàng</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shoping Cart Section End -->

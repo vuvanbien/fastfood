@@ -1,0 +1,67 @@
+﻿@model fastfood.Models.Account
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row">
+
+
+    <div class="col-md-12">
+
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Thêm tài khoản</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form asp-controller="AdAccounts" asp-action="Create" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="UserName" class="control-label">Tên đăng nhập</label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label">Mật khẩu</label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="RoleId">Loại tài khoản</label>
+
+                    <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId">
+                        <option value="" disabled selected>Chọn loại tài khoản</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Active">Hoạt động</label>
+                    <select asp-for="Active" class="form-control">
+                        <option value="true">True</option>
+                        <option value="false">False</option>
+                    </select>
+                    <span asp-validation-for="Active" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CusId" class="control-label">Mã người dùng</label>
+                    <input asp-for="CusId" class="form-control" />
+                    <span asp-validation-for="CusId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Thêm" class="btn btn-primary" />
+                    <a class="btn btn-secondary" asp-action="Index">Quay lại</a>
+
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+    <div class="col-md-3">  </div>
+
+</div>
+
+
+

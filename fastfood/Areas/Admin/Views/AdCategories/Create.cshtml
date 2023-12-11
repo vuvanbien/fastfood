@@ -1,0 +1,50 @@
+﻿@model fastfood.Models.Category
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+
+
+    <div class="col-md-12">
+
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Thêm Loại Món</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form asp-controller="AdCategories" asp-action="Create" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="CateName" class="control-label">Tên loại món</label>
+                    <input asp-for="CateName" class="form-control" />
+                    <span asp-validation-for="CateName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Short" class="control-label">Mô tả</label>
+                    <input asp-for="Short" class="form-control" />
+                    <span asp-validation-for="Short" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Thêm" class="btn btn-primary" />
+                    <a class="btn btn-secondary" asp-action="Index">Quay lại</a>
+
+                </div>
+                
+                
+            </form>
+        </div>
+
+    </div>
+    
+
+</div>
+
+
+
+
+

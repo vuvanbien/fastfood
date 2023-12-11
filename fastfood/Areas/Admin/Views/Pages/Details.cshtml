@@ -1,0 +1,48 @@
+﻿@model fastfood.Models.Page
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+div>
+<h4>Thông tin tin tức</h4>
+<hr />
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <td>@Html.DisplayFor(model => model.PageId)</td>
+    </tr>
+    <tr>
+        <th>Tên tin tức</th>
+        <td>@Html.DisplayFor(model => model.PageName)</td>
+    </tr>
+    <tr>
+        <th>Nội dung</th>
+        <td>@Html.DisplayFor(model => model.Contents)</td>
+    </tr>
+   
+    <tr>
+        <th>Ngày thêm</th>
+        <td>@Html.DisplayFor(model => model.CreateDate)</td>
+    </tr>
+    <tr>
+        <th>Ảnh</th>
+        <td style="max-width: 100px;">
+            <img src="@Url.Content("~/images/products/" + Model.Thumb)" alt="Ảnh món" style="max-width: 50%; height: auto;" />
+        </td>
+    </tr>
+    <tr>
+        <th>Hoạt động</th>
+        <td>@Html.DisplayFor(model => model.Title)</td>
+    </tr>
+
+    
+</table>
+
+
+<div>
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.PageId">Sửa</a>
+    <a class="btn btn-secondary" asp-action="Index">Quay lại</a>
+</div>
+

@@ -1,0 +1,16 @@
+﻿@model fastfood.Models.Category
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Delete</h1>
+
+<h3>Bạn có muốn xóa loại sản phẩm?</h3>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="CateId" />
+    <input type="submit" value="Xóa" class="btn btn-danger" />
+    <a class="btn btn-secondary" asp-action="Index">Quay lại</a>
+</form>

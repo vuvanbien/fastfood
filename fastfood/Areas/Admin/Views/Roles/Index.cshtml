@@ -1,0 +1,44 @@
+﻿@model IEnumerable<fastfood.Models.Role>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Loại tài khoản</h1>
+
+<div class="d-flex justify-content-between mb-3">
+    <a class="btn btn-primary" asp-action="Create">Thêm mới tài khoản</a>
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Mã loại tài khoản
+            </th>
+            <th>
+                Tên loại tài khoản
+            </th>
+            <th>
+                Chức năng
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoleId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoleName)
+            </td>
+            <td>
+                    <a class="btn btn-success btn-tone m-r-5" asp-action="Details" asp-route-id="@item.RoleId">Chi tiết</a>
+                    <a class="btn btn-warning btn-tone m-r-5" asp-action="Edit" asp-route-id="@item.RoleId">Sửa</a>
+                    <a class="btn btn-danger btn-tone m-r-5" asp-action="Delete" asp-route-id="@item.RoleId">Xóa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

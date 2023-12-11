@@ -1,0 +1,60 @@
+﻿@model fastfood.Models.Product
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<div>
+    <h4>Thông tin món</h4>
+    <hr />
+
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <td>@Html.DisplayFor(model => model.ProId)</td>
+        </tr>
+        <tr>
+            <th>Tên món</th>
+            <td>@Html.DisplayFor(model => model.ProName)</td>
+        </tr>
+        <tr>
+            <th>Mô tả</th>
+            <td>@Html.DisplayFor(model => model.ShortDesc)</td>
+        </tr>
+        <tr>
+            <th>Giá</th>
+            <td>@Html.DisplayFor(model => model.Price)</td>
+        </tr>
+        <tr>
+            <th>Giảm giá</th>
+            <td>@Html.DisplayFor(model => model.Discount)</td>
+        </tr>
+        <tr>
+            <th>Ngày tạo</th>
+            <td>@Html.DisplayFor(model => model.CreateDate)</td>
+        </tr>
+        <tr>
+            <th>Ảnh</th>
+            <td style="max-width: 100px;">
+                <img src="@Url.Content("~/images/products/" + Model.Thumb)" alt="Ảnh món" style="max-width: 50%; height: auto;" />
+            </td>
+        </tr>
+        <tr>
+            <th>Trạng thái</th>
+            <td>@Html.DisplayFor(model => model.Active)</td>
+        </tr>
+        
+        <tr>
+            <th>Loại món</th>
+            <td>@Html.DisplayFor(model => model.Cate.CateName)</td>
+        </tr>
+    </table>
+    
+</div>
+<div>
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ProId">Sửa</a> 
+    <a class="btn btn-secondary" asp-action="Index">Quay lại</a>
+</div>

@@ -1,0 +1,56 @@
+﻿@model fastfood.Models.Account
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+
+
+    <div class="col-md-12">
+
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Sửa thông tin tài khoản</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form asp-controller="AdAccounts" asp-action="Edit" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="UserName" class="control-label">Tên đăng nhập</label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label">Mật khẩu</label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="RoleId">Loại tài khoản</label>
+
+                    <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId">
+                        <option value="" disabled selected>Chọn loại tài khoản</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Active" class="control-label">Trạng thái</label>
+                    <input asp-for="Active" class="form-control" />
+                    <span asp-validation-for="Active" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Lưu" class="btn btn-primary" />
+                    <a class="btn btn-secondary" asp-action="Index">Quay lại</a>
+
+                </div>
+                
+
+            </form>
+        </div>
+
+    </div>
+</div>

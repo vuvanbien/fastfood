@@ -1,0 +1,154 @@
+﻿@model fastfood.Models.Product
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="row">
+    
+    
+    <div class="col-md-12">
+
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Thêm món</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form asp-controller="AdProducts" asp-action="Create" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="card-body">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header p-2">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Thông tin</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Hình ảnh</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Trạng thái</a></li>
+                                </ul>
+                            </div><!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="activity">
+                                        
+                                        <div class="form-group">
+                                            <label for="Name">Tên món</label>
+                                            <input asp-for="ProName" class="form-control" />
+                                            <span asp-validation-for="ProName" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ShortDesc">Mô tả</label>
+                                            <input asp-for="ShortDesc" class="form-control" />
+                                            <span asp-validation-for="ShortDesc" class="text-danger"></span>
+                                        </div>
+                                        <div class=" row">
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label for="Price">Giá</label>
+                                                    <input asp-for="Price" class="form-control" />
+                                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label for="Discount">Giảm giá</label>
+                                                    <input asp-for="Discount" class="form-control" />
+                                                    <span asp-validation-for="Discount" class="text-danger"></span>
+                                                </div>
+                                            </div>                                          
+                                        </div>
+                                       
+                                        <div class="form-group">
+                                            <label for="CateId">Loại món</label>
+
+                                            <select asp-for="CateId" class="form-control" asp-items="ViewBag.CateId">
+                                                <option value="" disabled selected>Chọn loại món</option>
+                                            </select>
+
+                                        </div>
+                                        
+
+
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="timeline">
+                                        <div class="row">
+                                            <div class="col-md12">
+                                                <div class="form-group">
+                                                    <label for="Thumb">Ảnh minh họa</label>
+                                                    <input name="fThumb" asp-for="Thumb" type="file" class="form-control-file" />
+                                                    <span asp-validation-for="Thumb" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="Title">Title</label>
+                                            <input asp-for="Title" class="form-control" />
+                                            <span asp-validation-for="Title" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <!-- /.tab-pane -->
+
+                                    <div class="tab-pane" id="settings">
+                                        <div class="form-group">
+                                            <label for="Hot">Bán chạy</label>
+                                            <select asp-for="Hot" class="form-control">
+                                                <option value="true">True</option>
+                                                <option value="false">False</option>
+                                            </select>
+                                            <span asp-validation-for="Hot" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Active">Hoạt động</label>
+                                            <select asp-for="Active" class="form-control">
+                                                <option value="true">True</option>
+                                                <option value="false">False</option>
+                                            </select>
+                                            <span asp-validation-for="Active" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                </div>
+                                <!-- /.tab-content -->
+                            </div><!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="form-group">
+                        <input type="submit" value="Thêm" class="btn btn-primary" />
+                        <a class="btn btn-secondary" asp-action="Index">Quay lại</a>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+    <div class="col-md-3">  </div>
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace('txtdesc', {
+                customConfig: '~/ckeditor/config.js',
+                extraAllowedContent: 'span'
+            });
+        });
+        function BrowseServer(field) {
+            var finder = new CKFinder();
+            finder.selectActionFuntion = function (fileUrl) {
+                document.getElementById(field).value = fileUrl;
+            };
+            finder.popup();
+        }
+    </script>
+}
