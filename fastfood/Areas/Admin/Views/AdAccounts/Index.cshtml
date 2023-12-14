@@ -1,14 +1,23 @@
-﻿@model IEnumerable<fastfood.Models.Account>
+﻿@model X.PagedList.IPagedList<fastfood.Models.Account>
+@using X.PagedList.Mvc.Core;
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Tài khoản</h1>
+<h1 style="font-weight: 700; text-align:center; margin-top:25px; margin-bottom: 25px ">TÀI KHOẢN</h1>
 
 <div class="d-flex justify-content-between mb-3">
     <a class="btn btn-primary" asp-action="Create">Thêm mới tài khoản</a>
+    <form asp-action="Index" method="get" class="input-group-append">
+        <input type="text" name="search" class="form-control float-right" placeholder="Nhập tên người dùng">
+        <div class="input-group-append">
+            <button type="submit" id="searchButton" class="btn btn-default">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form>
 </div>
 <table class="table table-bordered">
     <thead>
@@ -25,7 +34,7 @@
             <th>
                Tên người dùng
             </th>
-            <th>
+            <th style="text-align: center">
                Trạng thái
             </th>
             <th>
@@ -52,8 +61,22 @@
                 @Html.DisplayFor(modelItem => item.Cus.CusName)
             </td>
             
-            <td>
-                @Html.DisplayFor(modelItem => item.Active)
+            <td style="text-align: center">
+                    @if (item.Active.HasValue)
+                    {
+                        if (item.Active.Value)
+                        {
+                            <i class="fa-solid fa-check" style="color: #2fd501; font-size: 30px;"></i>
+                        }
+                        else
+                        {
+                            <i class="fa-solid fa-xmark" style="color: #ed3507; font-size: 30px; "></i>
+                        }
+                    }
+                    else
+                    {
+                        <span style="color: #999;">N/A</span>
+                    }
             </td>
             
             <td>
@@ -69,3 +92,21 @@
 }
     </tbody>
 </table>
+
+<div class="" style="text-align:center">
+    <ul class="pagination pagination-sm " style="text-align:center">
+        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+            <a class="page-link" href="@Url.Action("Index", "AdAccounts", new { page = Model.PageNumber - 1 })">&laquo;</a>
+        </li>
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", "AdAccounts", new { page = i })">@i</a>
+            </li>
+        }
+        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+            <a class="page-link" href="@Url.Action("Index", "AdAccounts", new { page = Model.PageNumber + 1 })">&raquo;</a>
+        </li>
+    </ul>
+</div>
+

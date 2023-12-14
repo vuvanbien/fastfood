@@ -28,7 +28,7 @@ namespace fastfood.Areas.Admin.Controllers
         public async Task<IActionResult> Index(string? search, int page = 1)
         {
             page = page < 1 ? 1 : page;
-            int pagesize = 8;
+            int pagesize = 2;
             var cate = from c in _context.Categories
                       select c;
             if (!string.IsNullOrEmpty(search))

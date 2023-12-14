@@ -11,6 +11,7 @@ namespace fastfood.Controllers
     public class CheckOutController : Controller
     {
         public Cart? Cart { get; set; }
+         public List<CartLine> Lines { get; set; }
         private readonly FoodshopContext _context;
 
         public CheckOutController(FoodshopContext context)
@@ -56,33 +57,36 @@ namespace fastfood.Controllers
                     Note = note,
                     Address = diachi,
                     Status = "Chờ xác nhận",
-                    TotalMoney = (double)Cart.ComputeTotalValue() + 20000,
+                    TotalMoney = (double)Cart.ComputeTotalValue(),
                     CusId = cusId
                 };
                 _context.Add(order);
                 _context.SaveChanges();
+                List<CartLine> cartLines = Cart.Lines;
 
-                // Lấy các dòng từ session
-                List<CartLine> lines = HttpContext.Session.GetJson<List<CartLine>>("Cart") ?? new List<CartLine>();
-                foreach (var cart in lines)
+        /*        // Lấy các dòng từ session
+                List<CartLine> lines = HttpContext.Session.GetJson<List<CartLine>>("Cart") ?? new List<CartLine>();*/
+                foreach (var cartLine in cartLines)
                 {
                     var orderdetail = new OrderDetail
                     {
                         OrderId = order.OrderId,
-                        ProId = cart.Product.ProId,
-                        ProName = cart.Product.ProName,
-                        Price = cart.Product.Price,
-                        Discount = cart.Product.Discount,
-                        Quantity = cart.Quantity,
-                        TotalMoney = cart.Quantity * cart.Product.Price
-                    };
+                        ProId = cartLine.Product.ProId,
+                        ProName = cartLine.Product.ProName,
+                        Price = cartLine.Product.Price,
+                        Discount = cartLine.Product.Discount,
+                        Quantity = cartLine.Quantity,
+                        TotalMoney = cartLine.Quantity * cartLine.Product.Price
 
-                    // Thêm mỗi chi tiết đơn hàng vào ngữ cảnh
+                    };
                     _context.Add(orderdetail);
+                    _context.SaveChanges();
+                    // Thêm mỗi chi tiết đơn hàng vào ngữ cảnh
+
                 }
 
                 // Lưu các thay đổi vào ngữ cảnh
-                _context.SaveChanges();
+                
 
                 // Xóa session
                 HttpContext.Session.Remove("cart");
@@ -91,7 +95,6 @@ namespace fastfood.Controllers
                 /*return View("Index", checkView);*/
                 return RedirectToAction("Index", "Cart", checkView);
             }
-            
         }
     }
 }

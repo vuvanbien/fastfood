@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using fastfood.Models;
+using PagedList;
+using X.PagedList;
 
 namespace fastfood.Areas.Admin.Controllers
 {
@@ -20,11 +22,14 @@ namespace fastfood.Areas.Admin.Controllers
         }
 
         // GET: Admin/Orders
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var foodshopContext = _context.Orders.Include(o => o.Cus);
-           
-            return View(await foodshopContext.ToListAsync());
+            page = page < 1 ? 1 : page;
+            int pageSize = 9;
+
+            var orderPagedList =await _context.Orders.Include(o=>o.Cus).ToPagedListAsync(page, pageSize);
+
+            return View(orderPagedList);
         }
 
         // GET: Admin/Orders/Details/5
@@ -37,6 +42,7 @@ namespace fastfood.Areas.Admin.Controllers
 
             var order = await _context.Orders
                 .Include(o => o.Cus)
+                .Include(o => o.OrderDetails)
                 .FirstOrDefaultAsync(m => m.OrderId == id);
             if (order == null)
             {
@@ -47,119 +53,61 @@ namespace fastfood.Areas.Admin.Controllers
         }
 
         // GET: Admin/Orders/Create
-        public IActionResult Create()
+        [HttpPost]
+        public IActionResult XacNhanDonHang(int orderId)
         {
-            ViewData["CusId"] = new SelectList(_context.Customers, "CusId", "CusId");
-            return View();
+            var donHang = _context.Orders.FirstOrDefault(o => o.OrderId == orderId);
+
+            if (donHang != null)
+            {
+                // Cập nhật trạng thái đơn hàng thành "Đang giao"
+                donHang.Status = "Đang giao";
+                _context.SaveChanges(); // Lưu các thay đổi vào cơ sở dữ liệu
+
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false });
+        }
+        [HttpPost]
+        public IActionResult DaGiao(int orderId)
+        {
+            var donHang = _context.Orders.FirstOrDefault(o => o.OrderId == orderId);
+
+            if (donHang != null)
+            {
+                // Cập nhật trạng thái đơn hàng thành "Đang giao"
+                donHang.Status = "Đã giao";
+                _context.SaveChanges(); // Lưu các thay đổi vào cơ sở dữ liệu
+
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false });
+        }
+        [HttpPost]
+        public IActionResult Huy(int orderId)
+        {
+            var donHang = _context.Orders.FirstOrDefault(o => o.OrderId == orderId);
+
+            if (donHang != null)
+            {
+                // Cập nhật trạng thái đơn hàng thành "Đang giao"
+                donHang.Status = "Hủy";
+                _context.SaveChanges(); // Lưu các thay đổi vào cơ sở dữ liệu
+
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false });
         }
 
-        // POST: Admin/Orders/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderId,OrderDate,Note,Address,Status,TotalMoney,CusId")] Order order)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CusId"] = new SelectList(_context.Customers, "CusId", "CusId", order.CusId);
-            return View(order);
-        }
+
 
         // GET: Admin/Orders/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Orders == null)
-            {
-                return NotFound();
-            }
 
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            ViewData["CusId"] = new SelectList(_context.Customers, "CusId", "CusId", order.CusId);
-            return View(order);
-        }
-
-        // POST: Admin/Orders/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderId,OrderDate,Note,Address,Status,TotalMoney,CusId")] Order order)
-        {
-            if (id != order.OrderId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.OrderId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CusId"] = new SelectList(_context.Customers, "CusId", "CusId", order.CusId);
-            return View(order);
-        }
 
         // GET: Admin/Orders/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Orders == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Orders
-                .Include(o => o.Cus)
-                .FirstOrDefaultAsync(m => m.OrderId == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return View(order);
-        }
-
-        // POST: Admin/Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Orders == null)
-            {
-                return Problem("Entity set 'FoodshopContext.Orders'  is null.");
-            }
-            var order = await _context.Orders.FindAsync(id);
-            if (order != null)
-            {
-                _context.Orders.Remove(order);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
         private bool OrderExists(int id)
         {

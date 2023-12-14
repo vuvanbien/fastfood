@@ -33,7 +33,16 @@
            Ngày tạo
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreateDate)
+            @{
+                if (Model.CreateDate.HasValue)
+                {
+                    <text>@Model.CreateDate.Value.ToShortDateString()</text>
+                }
+                else
+                {
+                    <text>N/A</text>
+                }
+            }
         </dd>
 
     </dl>

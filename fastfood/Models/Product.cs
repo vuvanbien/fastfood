@@ -29,3 +29,4 @@ public partial class Product
 
     public virtual Category? Cate { get; set; }
 }
+

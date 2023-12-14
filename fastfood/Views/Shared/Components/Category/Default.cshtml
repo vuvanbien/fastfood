@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Category>
+
+@if (Model != null)
+{
+    @foreach (var item in Model)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title"
+                    style="
+                        color: #696763;
+                        font-family: 'Roboto', sans-serif;
+                        font-size: 14px;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                    ">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="lsp" name="lsp" value="@item.CateName" />
+                        <label class="form-check-label" for="lsp">@item.CateName</label>
+                    </div>
+                </h4>
+            </div>
+        </div>
+    }
+}

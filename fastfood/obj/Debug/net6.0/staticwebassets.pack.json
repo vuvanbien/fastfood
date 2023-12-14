@@ -13605,6 +13605,14 @@
       "PackagePath": "staticwebassets\\images\\logo.jpg"
     },
     {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\banh-ga.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\banh-ga.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\banh-mi-pate.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\banh-mi-pate.jpg"
+    },
+    {
       "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\banh-mi-xuc-xich.jpg",
       "PackagePath": "staticwebassets\\images\\products\\banh-mi-xuc-xich.jpg"
     },
@@ -13629,8 +13637,72 @@
       "PackagePath": "staticwebassets\\images\\products\\dui-ga-sot-cay.jpg"
     },
     {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\ga-lac-pho-mai.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\ga-lac-pho-mai.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\hong-tra-sua.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\hong-tra-sua.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\khoai-lang-ken.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\khoai-lang-ken.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\khoai-tay-chien.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\khoai-tay-chien.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\mi-tron-indomie.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\mi-tron-indomie.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\mi-y-sot-bo-bam.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\mi-y-sot-bo-bam.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\nem-chua-ran.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\nem-chua-ran.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\pepsi.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\pepsi.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\pizza-bo-pho-mai.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\pizza-bo-pho-mai.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\pizza-ga-nuong-nam.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\pizza-ga-nuong-nam.jpg"
+    },
+    {
       "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\pizza-hai-san-nhiet-doi.jpg",
       "PackagePath": "staticwebassets\\images\\products\\pizza-hai-san-nhiet-doi.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\pizza-pho-mai.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\pizza-pho-mai.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\tra-dao-cam-sa.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\tra-dao-cam-sa.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\tra-dao-nhai.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\tra-dao-nhai.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\tra-dao.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\tra-dao.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\tra-tac.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\tra-tac.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\tra-thai-xanh.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\tra-thai-xanh.jpg"
     },
     {
       "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\js\\site.js",

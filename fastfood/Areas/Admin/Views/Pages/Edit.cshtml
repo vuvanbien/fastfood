@@ -44,15 +44,26 @@
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="timeline">
-                                    <div class="row">
-                                        <div class="col-md12">
-                                            <div class="form-group">
-                                                <label for="Thumb">Ảnh minh họa</label>
-                                                <input name="fThumb" asp-for="Thumb" type="file" class="form-control-file" />
-                                                <span asp-validation-for="Thumb" class="text-danger"></span>
+                                        <div class="row">
+                                            <div class="col-md12">
+                                                <div class="form-group">
+                                                    <label for="exampleInputFile">Hình ảnh sản phẩm</label>
+                                                    <div class="input-group">
+                                                        <div class="custom-file">
+                                                            <input name="fThumb" asp-for="Thumb" type="file" class="custom-file-input" id="exampleInputFile" onchange="displayImage(this)">
+                                                            <label class="custom-file-label" for="exampleInputFile">Chọn ảnh</label>
+                                                        </div>
+
+                                                    </div>
+                                                    <span asp-validation-for="Thumb" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+
+                                                    <img id="previewImage" src="#" alt="Ảnh xem trước" style="max-width: 100%; display: none;">
+                                                </div>
+
                                             </div>
                                         </div>
-                                    </div>
 
                                 </div>
                                 <!-- /.tab-pane -->

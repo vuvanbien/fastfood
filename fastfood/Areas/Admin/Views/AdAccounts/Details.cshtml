@@ -8,49 +8,65 @@
 
 
 <div>
-    <h4 class="primary">Thông tin tài khoản</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-           Tên đăng nhập
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-        <dt class = "col-sm-2">
-            Mật khẩu
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-        <dt class = "col-sm-2">
-           Tên người dùng
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cus.CusName)
-        </dd>
-        <dt class = "col-sm-2">
-            Ngày tạo
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreateDate)
-        </dd>
-        <dt class = "col-sm-2">
-           Trạng thái
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Active)
-        </dd>
-        
-        <dt class = "col-sm-2">
-            Loại tài khoản
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Role.RoleName)
-        </dd>
-    </dl>
+    <h4 style="font-weight:700; text-align:center; margin-top:20px; margin-bottom:20px">THÔNG TIN TÀI KHOẢN</h4>
+ <table class="table table-bordered">
+     <tr>
+         <th>Tên đăng nhập</th>
+         <td> @Html.DisplayFor(model => model.UserName)</td>
+     </tr>
+     <tr>
+         <th>Mật khẩu</th>
+         <td>@Html.DisplayFor(model => model.Password)</td>
+     </tr>
+     <tr>
+         <th>Ngày tạo</th>
+            <td>
+                @{
+                    if (Model.CreateDate.HasValue)
+                    {
+                        <text>@Model.CreateDate.Value.ToShortDateString()</text>
+                    }
+                    else
+                    {
+                        <text>N/A</text>
+                    }
+                }
+            </td>
+     </tr>
+     <tr>
+         <th>Trạng thái</th>
+         <td>
+                @if (Model.Active != null)
+                {
+                    if (Model.Active == true)
+                    {
+                        <i class="fa-solid fa-check" style="color: #2fd501; font-size: 30px;"></i>
+                    }
+                    else
+                    {
+                        <i class="fa-solid fa-xmark" style="color: #ed3507; font-size: 30px;"></i>
+                    }
+                }
+                else
+                {
+                    <span style="color: #999;">N/A</span>
+                }
+         </td>
+     </tr>
+     <tr>
+         <th>
+             Loại tài khoản
+         </th>
+         <td>
+                @Html.DisplayFor(model => model.Role.RoleName)
+         </td>
+     </tr>
+     <tr>
+            @{
+                Html.RenderPartial("Customer");
+            }
+     </tr>
+ </table>
+    
 </div>
-<div>
-    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.AccountId">Sửa</a>
-    <a class="btn btn-secondary" asp-action="Index">Quay lại</a>
-</div>
+

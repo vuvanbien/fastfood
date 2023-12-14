@@ -80,21 +80,19 @@
                                         <div class="row">
                                             <div class="col-md12">
                                                 <div class="form-group">
-
-                                                    <label for="Thumb">Ảnh minh họa</label>
-                                                    <div style="max-width: 100px;">
-                                                        <img src="@Url.Content("~/images/products/" + Model.Thumb)" alt="Ảnh món" style="max-width: 50%; height: auto;" />
+                                                    <label for="exampleInputFile">Hình ảnh sản phẩm</label>
+                                                    <div class="input-group">
+                                                        <div class="custom-file">
+                                                            <input name="fThumb" asp-for="Thumb" type="file" class="custom-file-input" id="exampleInputFile" onchange="displayImage(this)">
+                                                            <label class="custom-file-label" for="exampleInputFile">Chọn ảnh</label>
+                                                        </div>
                                                     </div>
-                                                    <input name="eThumb" asp-for="Thumb" type="file" class="form-control-file" />
                                                     <span asp-validation-for="Thumb" class="text-danger"></span>
                                                 </div>
+                                                <div class="form-group">
+                                                    <img id="previewImage" src="@Url.Content(Model.Thumb)" alt="Ảnh xem trước" style="max-width: 100%; display: block;">
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="Title">Title</label>
-                                            <input asp-for="Title" class="form-control" />
-                                            <span asp-validation-for="Title" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <!-- /.tab-pane -->
@@ -130,7 +128,6 @@
                     <div class="card-footer">
                         <input type="submit" value="Lưu" class="btn btn-primary" />
                         <a class="btn btn-secondary" asp-action="Index">Quay lại</a>
-
                     </div>
                 </div>
 
@@ -141,7 +138,19 @@
     <div class="col-md-3">  </div>
 
 </div>
+
 <script>
+    function displayImage(input) {
+        var fileInput = input.files[0];
+        if (fileInput) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('previewImage').src = e.target.result;
+                document.getElementById('previewImage').style.display = 'block';
+            };
+            reader.readAsDataURL(fileInput);
+        }
+    }
     document.getElementById('newImage').addEventListener('change', function () {
         var file = this.files[0];
         var reader = new FileReader();

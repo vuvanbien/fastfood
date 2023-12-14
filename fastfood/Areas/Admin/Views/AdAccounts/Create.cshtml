@@ -11,13 +11,13 @@
 
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">Thêm tài khoản</h3>
+                <h3 style="font-weight: 700; text-align:center ">THÊM MỚI TÀI KHOẢN</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
             <form asp-controller="AdAccounts" asp-action="Create" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
+                <div class="form-group" style="margin-top:5px">
                     <label asp-for="UserName" class="control-label">Tên đăng nhập</label>
                     <input asp-for="UserName" class="form-control" />
                     <span asp-validation-for="UserName" class="text-danger"></span>
@@ -35,18 +35,13 @@
                         <option value="" disabled selected>Chọn loại tài khoản</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
-                    <label for="Active">Hoạt động</label>
-                    <select asp-for="Active" class="form-control">
-                        <option value="true">True</option>
-                        <option value="false">False</option>
-                    </select>
-                    <span asp-validation-for="Active" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CusId" class="control-label">Mã người dùng</label>
-                    <input asp-for="CusId" class="form-control" />
-                    <span asp-validation-for="CusId" class="text-danger"></span>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch2"
+                               checked="@(Model != null && Model.Active.HasValue && Model.Active.Value)">
+                        <label class="custom-control-label" for="customSwitch2">Hoạt động</label>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -62,6 +57,20 @@
     <div class="col-md-3">  </div>
 
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var switchElement = document.getElementById("customSwitch2");
+
+        switchElement.addEventListener("change", function () {
+            var isChecked = switchElement.checked;
+            var hiddenInput = document.createElement("input");
+            hiddenInput.type = "hidden";
+            hiddenInput.name = "Active";
+            hiddenInput.value = isChecked;
+            document.forms[0].appendChild(hiddenInput);
+        });
+    });
+</script>
 
 
 

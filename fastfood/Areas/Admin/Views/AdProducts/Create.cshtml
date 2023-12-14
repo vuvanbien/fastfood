@@ -13,7 +13,7 @@
 
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">Thêm món</h3>
+                <h3 style="font-weight: 700; text-align:center ">THÊM MỚI SẢN PHẨM</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
@@ -77,10 +77,21 @@
                                         <div class="row">
                                             <div class="col-md12">
                                                 <div class="form-group">
-                                                    <label for="Thumb">Ảnh minh họa</label>
-                                                    <input name="fThumb" asp-for="Thumb" type="file" class="form-control-file" />
+                                                    <label for="exampleInputFile">Hình ảnh sản phẩm</label>
+                                                    <div class="input-group">
+                                                        <div class="custom-file">
+                                                            <input name="fThumb" asp-for="Thumb" type="file" class="custom-file-input" id="exampleInputFile" onchange="displayImage(this)">
+                                                            <label class="custom-file-label" for="exampleInputFile">Chọn ảnh</label>
+                                                        </div>
+                                                        
+                                                    </div>
                                                     <span asp-validation-for="Thumb" class="text-danger"></span>
                                                 </div>
+                                                <div class="form-group">
+                                                    
+                                                    <img id="previewImage" src="#" alt="Ảnh xem trước" style="max-width: 100%; display: none;">
+                                                </div>
+
                                             </div>
                                         </div>
                                         
@@ -94,21 +105,19 @@
 
                                     <div class="tab-pane" id="settings">
                                         <div class="form-group">
-                                            <label for="Hot">Bán chạy</label>
-                                            <select asp-for="Hot" class="form-control">
-                                                <option value="true">True</option>
-                                                <option value="false">False</option>
-                                            </select>
-                                            <span asp-validation-for="Hot" class="text-danger"></span>
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch1"
+                                                       checked="@(Model != null && Model.Hot.HasValue && Model.Hot.Value)">
+                                                <label class="custom-control-label" for="customSwitch1">Bán chạy</label>
+                                            </div>
                                         </div>
-
+                                        
                                         <div class="form-group">
-                                            <label for="Active">Hoạt động</label>
-                                            <select asp-for="Active" class="form-control">
-                                                <option value="true">True</option>
-                                                <option value="false">False</option>
-                                            </select>
-                                            <span asp-validation-for="Active" class="text-danger"></span>
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch2"
+                                                       checked="@(Model != null && Model.Active.HasValue && Model.Active.Value)">
+                                                <label class="custom-control-label" for="customSwitch2">Hoạt động</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- /.tab-pane -->
@@ -136,6 +145,49 @@
 </div>
 
 @section scripts{
+    
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            var switchElement = document.getElementById("customSwitch1");
+
+            switchElement.addEventListener("change", function () {
+                var isChecked = switchElement.checked;
+                var hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = "Hot";
+                hiddenInput.value = isChecked;
+                document.forms[0].appendChild(hiddenInput);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var switchElement = document.getElementById("customSwitch2");
+
+            switchElement.addEventListener("change", function () {
+                var isChecked = switchElement.checked;
+                var hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = "Active";
+                hiddenInput.value = isChecked;
+                document.forms[0].appendChild(hiddenInput);
+            });
+        });
+    </script>
+    <script>
+        function displayImage(input) {
+            var fileInput = input.files[0];
+            if (fileInput) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('previewImage').src = e.target.result;
+                    document.getElementById('previewImage').style.display = 'block';
+                };
+                reader.readAsDataURL(fileInput);
+            }
+        }
+    </script>
     <script>
         $(document).ready(function () {
             CKEDITOR.replace('txtdesc', {

@@ -55,9 +55,7 @@
                                     }
                                 }
                             </ul>
-                            <div class="checkout__order__subtotal">Tổng tiền <span>@Model.Cart?.ComputeTotalValue() VND</span></div>
-                            <div class="checkout__order__total">Phí Giao hàng <span>20000 VND</span></div>
-                            <div class="checkout__order__total">Tổng <span>@(Model.Cart?.ComputeTotalValue() + 20000) VND</span></div>
+                            <div class="checkout__order__subtotal">Tổng tiền <span>@Model.Cart?.ComputeTotalValue() VND</span></div>                        
                             <div class="checkout__input__checkbox"></div>
                             <button asp-action="Index" asp-controller="Cart" class="site-btn">Thay đổi sản phẩm</button>
                         </div>

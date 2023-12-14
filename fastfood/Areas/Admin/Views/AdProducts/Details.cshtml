@@ -8,16 +8,16 @@
 
 
 <div>
-    <h4>Thông tin món</h4>
+    <h1 style="font-weight: 700; text-align:center; margin-top:25px; margin-bottom: 25px ">THÔNG TIN SẢN PHẨM</h1>
     <hr />
 
     <table class="table">
         <tr>
-            <th>ID</th>
+            <th>Mã sản phẩm</th>
             <td>@Html.DisplayFor(model => model.ProId)</td>
         </tr>
         <tr>
-            <th>Tên món</th>
+            <th>Tên sản phẩm</th>
             <td>@Html.DisplayFor(model => model.ProName)</td>
         </tr>
         <tr>
@@ -34,7 +34,18 @@
         </tr>
         <tr>
             <th>Ngày tạo</th>
-            <td>@Html.DisplayFor(model => model.CreateDate)</td>
+            <td>
+                @{
+                    if (Model.CreateDate.HasValue)
+                    {
+                        <text>@Model.CreateDate.Value.ToShortDateString()</text>
+                    }
+                    else
+                    {
+                        <text>N/A</text>
+                    }
+                }
+            <td>
         </tr>
         <tr>
             <th>Ảnh</th>
@@ -43,12 +54,48 @@
             </td>
         </tr>
         <tr>
+            <th>Bán chạy</th>
+            <td>
+                @if (Model.Hot.HasValue)
+                {
+                    if (Model.Hot.Value)
+                    {
+                        <i class="fa-solid fa-check" style="color: #2fd501; font-size: 30px;"></i>
+                    }
+                    else
+                    {
+                        <i class="fa-solid fa-xmark" style="color: #ed3507; font-size: 30px;"></i>
+                    }
+                }
+                else
+                {
+                    <span style="color: #999;">N/A</span>
+                }
+            </td>
+        </tr>
+        <tr>
             <th>Trạng thái</th>
-            <td>@Html.DisplayFor(model => model.Active)</td>
+            <td>
+                @if (Model.Active.HasValue)
+                {
+                    if (Model.Active.Value)
+                    {
+                        <i class="fa-solid fa-check" style="color: #2fd501; font-size: 30px;"></i>
+                    }
+                    else
+                    {
+                        <i class="fa-solid fa-xmark" style="color: #ed3507; font-size: 30px;"></i>
+                    }
+                }
+                else
+                {
+                    <span style="color: #999;">N/A</span>
+                }
+            </td>
         </tr>
         
         <tr>
-            <th>Loại món</th>
+            <th>Loại sản phẩm</th>
             <td>@Html.DisplayFor(model => model.Cate.CateName)</td>
         </tr>
     </table>

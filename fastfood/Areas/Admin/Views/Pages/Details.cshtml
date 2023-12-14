@@ -24,7 +24,18 @@ div>
    
     <tr>
         <th>Ngày thêm</th>
-        <td>@Html.DisplayFor(model => model.CreateDate)</td>
+        <td>
+            @{
+                if (Model.CreateDate.HasValue)
+                {
+                    <text>@Model.CreateDate.Value.ToShortDateString()</text>
+                }
+                else
+                {
+                    <text>N/A</text>
+                }
+            }
+        <td>
     </tr>
     <tr>
         <th>Ảnh</th>

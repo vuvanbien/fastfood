@@ -7,7 +7,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Món</h1>
+<h1 style="font-weight: 700; text-align:center; margin-top:25px; margin-bottom: 25px ">SẢN PHẨM</h1>
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -15,10 +15,8 @@
     <a class="btn btn-primary" asp-action="Create">Thêm mới món</a>
     
     <form asp-action="Index" method="get" class="input-group-append">
-        <select asp-items="ViewBag.CateId" name="CateId" onchange="forms[0].submit()">
-        </select>
-
-        <input type="text" name="searchInput" class="form-control float-right" placeholder="Tên món">
+        
+        <input type="text" name="searchInput" class="form-control float-right" placeholder="Tên sản phẩm">
 
         <div class="input-group">
             <input type="number" name="to" class="form-control" placeholder="Từ giá">
@@ -37,11 +35,11 @@
     <thead class="thead thead-primary">
         
         <tr >
-            <th>
-                ID
+            <th style ="width: 10%;">
+                Mã sản phẩm
             </th>
             <th>
-               Tên món
+               Tên sản phẩm
             </th>
            
             <th>
@@ -56,7 +54,7 @@
             </th>
             
             <th>
-                Loại món
+                Loại sản phẩm
             </th>
             <th>
                 Chức năng
@@ -81,12 +79,23 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Discount)  %
             </td>
-           
-            
             <td>
-                @Html.DisplayFor(modelItem => item.Active)
+                @if (item.Active.HasValue)
+                {
+                    if (item.Active.Value)
+                    {
+                            <i class="fa-solid fa-check" style="color: #2fd501; font-size: 30px;"></i>
+                    }
+                    else
+                    {
+                            <i class="fa-solid fa-xmark" style="color: #ed3507; font-size: 30px;"></i>
+                    }
+                }
+                else
+                {
+                    <span style="color: #999;">N/A</span>
+                }
             </td>
-            
             <td>
                 @Html.DisplayFor(modelItem => item.Cate.CateName)
             </td>
@@ -104,23 +113,23 @@
 
 <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
     <ul class="pagination">
-        <li class="paginate_button page-item @(Model.HasPreviousPage ? "" : "disabled")" id="example1_previous">
-            <a href="#" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link previous" data-page-number="@Model.PageNumber - 1">Previous</a>
+        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+            <a href="@Url.Action("Index", "AdProducts", new { page = Model.PageNumber - 1 })" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link previous" data-page-number="@Model.PageNumber - 1">&laquo;</a>
         </li>
         @for (int i = 1; i <= Model.PageCount; i++)
         {
-            <li class="paginate_button page-item @(i == Model.PageNumber ? "active" : "")">
+            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
                 <a href="@Url.Action("Index", "AdProducts", new { page = i })" aria-controls="example1" data-dt-idx="@i" tabindex="0" class="page-link">@i</a>
             </li>
         }
-        <li class="paginate_button page-item @(Model.HasNextPage ? "" : "disabled")" id="example1_next">
-            <a href="#" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link next" data-page-number="@Model.PageNumber + 1">Next</a>
+        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+            <a href="@Url.Action("Index", "AdProducts", new { page = Model.PageNumber + 1 })" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link next" data-page-number="@Model.PageNumber + 1">&raquo;</a>
         </li>
     </ul>
 </div>
 
 @section scripts {
-    <script>
+    @* <script>
         $(document).ready(function () {
             $('#example1_paginate').on('click', '.page-link', function (e) {
                 e.preventDefault();
@@ -142,6 +151,8 @@
                 }
             });
         });
+    </script> *@
+    <script>        
         $(document).ready(function () {
             $('body').on('click', '.btnDelete', function () {
                 var id = $(this).data("id");

@@ -12,14 +12,14 @@
 
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">Thêm Loại Món</h3>
+                <h3 style="font-weight: 700; text-align:center ">THÊM MỚI LOẠI SẢN PHẨM</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
             <form asp-controller="AdCategories" asp-action="Create" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="CateName" class="control-label">Tên loại món</label>
+                    <label asp-for="CateName" class="control-label">Tên loại sản phẩm</label>
                     <input asp-for="CateName" class="form-control" />
                     <span asp-validation-for="CateName" class="text-danger"></span>
                 </div>

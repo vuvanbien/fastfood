@@ -10,8 +10,9 @@ using System.Security.Claims;
 namespace fastfood.Controllers
 {
     public class CartController : Controller
-    { 
+    {
         public Cart? Cart { get; set; }
+       
         private readonly FoodshopContext _context;
         public CartController(FoodshopContext context)
         {

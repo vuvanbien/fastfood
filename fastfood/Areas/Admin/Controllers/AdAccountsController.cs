@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using fastfood.Models;
+using X.PagedList;
 
 namespace fastfood.Areas.Admin.Controllers
 {
@@ -20,11 +21,21 @@ namespace fastfood.Areas.Admin.Controllers
         }
 
         // GET: Admin/AdAccounts
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(string? search,int page = 1 )
         {
+            page = page < 1 ? 1 : page;
+            int pagesize = 5;
+            var acc = from c in _context.Accounts.Include(a => a.Role).Include(a => a.Cus)
+
+            select c;
+            if (!string.IsNullOrEmpty(search))
+            {
+                acc = acc.Where(x => x.Cus.CusName.Contains(search));
+            }
+            var accPagedList = await acc.ToPagedListAsync(page, pagesize);
+            return View(accPagedList);
             
-            var foodContext = _context.Accounts.Include(a => a.Role).Include(a => a.Cus);
-            return View(await foodContext.ToListAsync());
         }
 
         // GET: Admin/AdAccounts/Details/5

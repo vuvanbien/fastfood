@@ -1,0 +1,240 @@
+﻿@model X.PagedList.IPagedList<fastfood.Models.ViewModel.ProductViewModel>
+    @using X.PagedList.Mvc.Core;
+    @{
+        ViewBag.Title = "";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+
+<html lang="zxx">
+
+<head>
+    <script src="~/User/js/jquery-3.3.1.min.js"></script>
+    <script src="~/User/js/bootstrap.min.js"></script>
+    <script src="~/User/js/jquery.nice-select.min.js"></script>
+    <script src="~/User/js/jquery-ui.min.js"></script>
+    <script src="~/User/js/jquery.slicknav.js"></script>
+    <script src="~/User/js/mixitup.min.js"></script>
+    <script src="~/User/js/owl.carousel.min.js"></script>
+    <script src="~/User/js/main.js"></script>
+
+</head>
+<body>
+
+
+
+
+
+    <!-- Product Section Begin -->
+    <section class="product spad">
+        <div class="container">
+
+
+            <h2 style="text-align: center; font-weight: bold;">Sản Phẩm</h2>
+            <div class="row">
+
+                <div class="col-lg-3 col-md-5">
+                    <div class="sidebar">
+                        <form asp-action="Index" asp-controller="Category" method="get">
+                            <div class="sidebar__item">
+                                <div class="hero__categories">
+
+                                    <div class="input-group" style="display:flex;margin-bottom: 10px;">
+                                        <input id="TimKiem" type="text" name="searchTen" placeholder="Nhập từ bạn cần tìm?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+                                        <div class="input-group-append">
+                                            <button id="button-addon1" class="btn btn-link text-primary" type="submit" style="background: #FE980F;color: white;"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="hero__categories__all">
+                                        <i class="fa fa-bars"></i>
+                                        <span>Danh mục</span>
+                                    </div>
+                                    <ul>
+                                        @await Component.InvokeAsync("Category")
+                                        @* @if (Model != null && Model.Products != null)
+                                        {
+                                        // Tạo một danh sách các CateName duy nhất từ danh sách sản phẩm
+                                        var uniqueCategories = Model.Products
+                                        .Where(p => p.Cate != null)
+                                        .Select(p => p.Cate.CateName)
+                                        .Distinct();
+
+                                        // Hiển thị các CateName trong danh sách duy nhất
+                                        foreach (var categoryName in uniqueCategories)
+                                        {
+                                        <li>
+                                        <a href="#">@categoryName</a>
+                                        </li>
+                                        }
+                                        } *@
+
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <
+                        </form>
+                        <div class="sidebar__item">
+                            <h4>Giá</h4>
+                            <div class="price-range-wrap">
+                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                     data-min="10" data-max="100">
+                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                </div>
+                                <div class="range-slider">
+                                    <div class="price-input">
+                                        <input type="text" id="minamount">
+                                        <input type="text" id="maxamount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-7">
+                    <div class="product__discount">
+                    </div>
+
+                    <div class="filter__item">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-5">
+                                <div class="filter__sort">
+                                    <span>Sort By</span>
+                                    <select>
+                                        <option value="0">Default</option>
+                                        <option value="0">Default</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        @if (Model != null && Model.Any(item => item.Active.HasValue && item.Active.Value))
+                        {
+                            foreach (var item in Model.Where(item => item.Active.HasValue && item.Active.Value))
+                            {
+                                string url = $"/{item.Title}-{item.ProId}.html";
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="product__item">
+                                        <div class="product__item__pic set-bg" data-setbg="@Url.Content("~/images/products/" + item.Thumb)">
+                                            <ul class="product__item__pic__hover">
+                                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                                <li><a href="@Url.Action("Details", "Products", new { id = item.ProId })"><i class="fa fa-retweet"></i></a></li>
+                                                <li><a href="#" class="add-to-cart" data-product-id="@item.ProId"><i class="fa fa-shopping-cart"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="product__item__text">
+                                            <h6><a href="@url">@item.ProName</a></h6>
+                                            <h5>@item.Price VND</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không có sản phẩm nào đang hoạt động.</p>
+                        }
+
+                    </div>
+                    <div class="" style="text-align:center">
+                        <ul class="pagination pagination-sm " style="text-align:center">
+                            <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                                <a class="page-link" href="@Url.Action("Index", "Products", new { page = Model.PageNumber - 1 })">&laquo;</a>
+                            </li>
+                            @for (int i = 1; i <= Model.PageCount; i++)
+                            {
+                                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Index", "Products", new { page = i })">@i</a>
+                                </li>
+                            }
+                            <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                                <a class="page-link" href="@Url.Action("Index", "Products", new { page = Model.PageNumber + 1 })">&raquo;</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <style>
+                        .current-page a {
+                            color: red;
+                        }
+                    </style>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Section End -->
+    <!-- Js Plugins -->
+    @section Scripts {
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('a.add-to-cart').click(function (e) {
+                    e.preventDefault();
+
+                    var productId = $(this).data('product-id');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Cart/Add',
+                        data: { ProId: productId }, // Gửi ProId lên server
+                        success: function (data) {
+                            if (data.success) {
+                                alert('Sản phẩm đã được thêm vào giỏ hàng!'); 43
+                            } else {
+                                alert('Không thể thêm sản phẩm vào giỏ hàng.');
+                            }
+                        },
+                        error: function (error) {
+                            alert('Có lỗi xảy ra: ' + error.responseText);
+                        }
+                    });
+                });
+            });
+        </script>
+        <script>
+            // Lắng nghe sự kiện khi người dùng nhấn Enter trong ô input tìm kiếm
+            $('#TimKiem').on('keyup', function (event) {
+                if (event.key === 'Enter') {
+                    updateSearchCriteria();
+                }
+            });
+            // Event handler for checkbox and input changes
+            $('.form-check-input').change(function () {
+                updateSearchCriteria();
+            });
+            function updateSearchCriteria() {
+                // Khởi tạo một đối tượng lưu trữ các tùy chọn tìm kiếm
+                var searchCriteria = {};
+                // Lặp qua tất cả các checkbox
+                $('.form-check-input').each(function () {
+                    var checkbox = $(this);
+                    var checkboxName = checkbox.attr('name');
+                    var checkboxValue = checkbox.is(':checked');
+                    searchCriteria[checkboxName] = checkboxValue;
+                });
+                // Lấy giá trị từ ô input và thêm vào đối tượng tìm kiếm
+                var searchTen = $('#TimKiem').val();
+                searchCriteria['searchTen'] = searchTen;
+                // Lấy giá trị từ slider giá và thêm vào đối tượng tìm kiếm
+                console.log(searchCriteria);
+                // Xây dựng URL tìm kiếm với các tham số truyền vào
+                var searchUrl = '/Category?' + $.param(searchCriteria);
+                console.log(searchUrl);
+                // Chuyển hướng đến trang tìm kiếm với các tùy chọn đã chọn
+                window.location.href = searchUrl;
+            }
+                                    });
+        </script>
+    }
+</body>
+
+</html>

@@ -15,8 +15,7 @@ namespace fastfood.Controllers
     public class ProductsController : Controller
     {
         private readonly FoodshopContext _context;
-        public int PageSize = 9;
-
+       
 
         public ProductsController(FoodshopContext context)
         {
@@ -24,50 +23,27 @@ namespace fastfood.Controllers
         }
 
         // GET: Products
+        [HttpGet]
         public IActionResult Index(int page = 1)
         {
+            page = page < 1 ? 1 : page;
+            int pageSize = 9;
 
-            return View(
-                new ProductListViewModel
-                {
-                    Products = _context.Products
-                    .Include(p => p.Cate)
-                    .Skip((page - 1) * PageSize)
-                    .Take(PageSize),
-                    PagingInfo = new PagingInfo
-                    {
-                        ItemPerPage = PageSize,
-                        CurrentPage = page,
-                        TotalItems = _context.Products.Count()
-                    }
-                }
-                );
+            var productsPagedList =_context.Products.ToPagedList(page, pageSize);
 
+            return View(productsPagedList);
         }
         [HttpPost]
         public IActionResult Search(string keywords, int page = 1)
         {
-            int totalItems = _context.Products
-                                 .Include(p => p.Cate)
-                                 .Where(p => p.ProName.Contains(keywords))
-                                 .Count();
+            int pageSize = 2;
 
-            return View("Index",
-                new ProductListViewModel
-                {
-                    Products = _context.Products
-                                    .Include(p => p.Cate)
-                                    .Where(p => p.ProName.Contains(keywords))
-                                    .Skip((page - 1) * PageSize)
-                                    .Take(PageSize),
-                    PagingInfo = new PagingInfo
-                    {
-                        ItemPerPage = PageSize,
-                        CurrentPage = page,
-                        TotalItems = totalItems
-                    }
-                }
-            );
+            var productsPagedList = _context.Products
+                                            .Include(p => p.Cate)
+                                            .Where(p => p.ProName.Contains(keywords))
+                                            .ToPagedList(page, pageSize);
+
+            return View("Index", productsPagedList);
         }
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
