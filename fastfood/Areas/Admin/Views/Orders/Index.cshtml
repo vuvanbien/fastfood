@@ -1,17 +1,59 @@
-﻿@model X.PagedList.IPagedList<fastfood.Models.Order>
-@using X.PagedList.Mvc.Core;
-
+﻿@using X.PagedList
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    IPagedList<Order> dsfull = (IPagedList<Order>)ViewBag.PagedList;
+    IPagedList<Order> ds1 = (IPagedList<Order>)ViewBag.PagedList1;
+    IPagedList<Order> ds2 = (IPagedList<Order>)ViewBag.PagedList2;
+    IPagedList<Order> ds3 = (IPagedList<Order>)ViewBag.PagedList3;
+    IPagedList<Order> ds4 = (IPagedList<Order>)ViewBag.PagedList4;
 }
+
 <h1 style="font-weight: 700; text-align:center; margin-top:25px; margin-bottom: 25px ">ĐƠN HÀNG</h1>
-<div class="card card-primary card-tabs">
+<!-- Tìm kiếm -->
+<form asp-action="Index" method="get" id="formSearch">
+    <div class="col-md-9">
+        <div class="input-group" style="margin-left:-22px">
+            <div style="padding: .25rem 1rem">
+                <label>Tên khách hàng:</label>
+                <input type="text" name="name" value="@ViewBag.name" class="form-control">
+            </div>
+
+            <div style="padding: .25rem 1rem">
+                <label>Địa chỉ:</label>
+                <input type="text" name="diachi" value="@ViewBag.diachi" class="form-control">
+            </div>
+
+            
+            <div style="padding: .25rem 1rem">
+                <label>Từ ngày:</label>
+                <input type="date" id="beginDate" name="beginDate" value="@(((DateTime)ViewBag.beginDate).ToString("yyyy-MM-dd"))" class="form-control">
+            </div>
+
+            <div style="padding: .25rem 1rem">
+                <label>Đến ngày:</label>
+                <input type="date" id="endDate" name="endDate" value="@(((DateTime)ViewBag.endDate).ToString("yyyy-MM-dd"))" class="form-control">
+            </div>
+
+            <div style="padding: .25rem 1rem; margin-top: 32px">
+                <a asp-action="Index" asp-area="Admin" asp-controller="Orders" class="btn btn-secondary">Khôi phục</a>
+            </div>
+
+            <div style="padding: .25rem 1rem; margin-top: 32px">
+                <input type="submit" value="Tìm kiếm" class="btn btn-primary">
+            </div>
+
+            <input type="hidden" name="pageId" id="pageId" value="">
+        </div>
+    </div>
+</form>
+
+<div class="card card-primary card-tabs" style="margin-top: 25px">
     <div class="card-header p-0 pt-1">
         <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Chưa xác nhận</a>
+                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Chờ xác nhận</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Đang giao</a>
@@ -52,7 +94,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.Where(o=>o.Status=="Chờ xác nhận" ))
+                        @foreach (var item in ds1 )
                         {
                             <tr>
                                 <td>
@@ -88,21 +130,62 @@
                         }
                     </tbody>
                 </table>
-                <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
-                    <ul class="pagination">
-                        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-                            <a href="@Url.Action("Index", "Orders", new { page = Model.PageNumber - 1 })" aria-controls="example1" data-dt-idx="0" tabindex="0" class="page-link previous" data-page-number="@Model.PageNumber - 1">&laquo;</a>
-                        </li>
-                        @for (int i = 1; i <= Model.PageCount; i++)
-                        {
-                            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                                <a href="@Url.Action("Index", "Orders", new { page = i })" aria-controls="example1" data-dt-idx="@i" tabindex="0" class="page-link">@i</a>
+                <div class="col-sm-12 col-md-7">
+                    <p>Danh sách từ @ViewBag.PageStartItem1 đến @ViewBag.PageEndItem1 trên tổng số @ViewBag.TotalItemCount1 hóa đơn chưa xác nhận</p>
+                    <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                        <ul class="pagination">
+                            @if (ds1.HasPreviousPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", "Order", new { page1 = ds1.PageNumber - 1, pageId = 1 })"><i class="fa fa-angle-left"></i></a>
+                                </li>
+
+                            }
+
+                            <li class="page-item @(1 == ViewBag.Page1 ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Index", "Order", new { page1 = 1, pageId = 1 })">1</a>
                             </li>
-                        }
-                        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-                            <a href="@Url.Action("Index", "Orders", new { page = Model.PageNumber + 1 })" aria-controls="example1" data-dt-idx="7" tabindex="0" class="page-link next" data-page-number="@Model.PageNumber + 1">&raquo;</a>
-                        </li>
-                    </ul>
+
+                            @if (ds1.PageNumber > 3)
+                            {
+                                <li class="page-item">
+                                    <span class="page-link">...</span>
+                                </li>
+                            }
+
+                            @for (int i = ds1.PageNumber - 1; i <= ds1.PageNumber + 1; i++)
+                            {
+                                if (i > 1 && i < ds1.PageCount)
+                                {
+                                    <li class="page-item @(i == ds1.PageNumber ? "active" : "")">
+                                        <a class="page-link" href="@Url.Action("Index", "Order", new { page1 = i, pageId = 1 })">@i</a>
+                                    </li>
+                                }
+                            }
+
+                            @if (ds1.PageNumber < ds1.PageCount - 2)
+                            {
+                                <li class="page-item">
+                                    <span class="page-link">...</span>
+                                </li>
+                            }
+
+                            @if (ds1.PageCount > 1)
+                            {
+                                <li class="page-item @(ds1.PageCount == ViewBag.Page1 ? "active" : "") ">
+                                    <a class="page-link" href="@Url.Action("Index", "Order", new { page1 = ds1.PageCount, pageId = 1 })">@ds1.PageCount</a>
+                                </li>
+                            }
+
+                            @if (ds1.HasNextPage)
+                            {
+
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", "Order", new { page1 = ds1.PageNumber + 1, pageId = 1 })"><i class="fa fa-angle-right"></i></a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
                 <script>
                     function xacNhanDonHang(orderId) {
@@ -177,7 +260,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.Where(o => o.Status == "Đang giao"))
+                        @foreach (var item in ds2)
                         {
                             <tr>
                                 <td>
@@ -213,6 +296,63 @@
                         }
                     </tbody>
                 </table>
+                <div class="col-sm-12 col-md-7">
+                    <p>Danh sách từ @ViewBag.PageStartItem2 đến @ViewBag.PageEndItem2 trên tổng số @ViewBag.TotalItemCount2 hóa đơn đang giao hàng</p>
+                    <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                        <ul class="pagination">
+                            @if (ds2.HasPreviousPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", "Order", new { page2 = ds2.PageNumber - 1, pageId = 2 })"><i class="fa fa-angle-left"></i></a>
+                                </li>
+
+                            }
+
+                            <li class="page-item @(1 == ViewBag.Page2 ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Index", "Order", new { page2 = 1, pageId = 2 })">1</a>
+                            </li>
+
+                            @if (ds2.PageNumber > 3)
+                            {
+                                <li class="page-item">
+                                    <span class="page-link">...</span>
+                                </li>
+                            }
+
+                            @for (int i = ds2.PageNumber - 1; i <= ds2.PageNumber + 1; i++)
+                            {
+                                if (i > 1 && i < ds2.PageCount)
+                                {
+                                    <li class="page-item @(i == ds2.PageNumber ? "active" : "")">
+                                        <a class="page-link" href="@Url.Action("Index", "Order", new { page2 = i, pageId = 2 })">@i</a>
+                                    </li>
+                                }
+                            }
+
+                            @if (ds2.PageNumber < ds2.PageCount - 2)
+                            {
+                                <li class="page-item">
+                                    <span class="page-link">...</span>
+                                </li>
+                            }
+
+                            @if (ds2.PageCount > 1)
+                            {
+                                <li class="page-item @(ds2.PageCount == ViewBag.Page2 ? "active" : "") ">
+                                    <a class="page-link" href="@Url.Action("Index", "Order", new { page2 = ds2.PageCount, pageId = 2 })">@ds2.PageCount</a>
+                                </li>
+                            }
+
+                            @if (ds2.HasNextPage)
+                            {
+
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", "Order", new { page2 = ds2.PageNumber + 1, pageId = 2 })"><i class="fa fa-angle-right"></i></a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
                 <script>
                     function daGiao(orderId) {
                         $.ajax({
@@ -286,7 +426,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.Where(o => o.Status == "Đã giao"))
+                        @foreach (var item in ds3)
                         {
                             <tr>
                                 <td>
@@ -320,6 +460,63 @@
                         }
                     </tbody>
                 </table>
+                <div class="col-sm-12 col-md-7">
+                    <p>Danh sách từ @ViewBag.PageStartItem3 đến @ViewBag.PageEndItem3 trên tổng số @ViewBag.TotalItemCount3 hóa đơn đã giao hàng</p>
+                    <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                        <ul class="pagination">
+                            @if (ds3.HasPreviousPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", "Order", new { page3 = ds3.PageNumber - 1, pageId = 3 })"><i class="fa fa-angle-left"></i></a>
+                                </li>
+
+                            }
+
+                            <li class="page-item @(1 == ViewBag.Page3 ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Index", "Order", new { page3 = 1, pageId = 3 })">1</a>
+                            </li>
+
+                            @if (ds3.PageNumber > 3)
+                            {
+                                <li class="page-item">
+                                    <span class="page-link">...</span>
+                                </li>
+                            }
+
+                            @for (int i = ds3.PageNumber - 1; i <= ds3.PageNumber + 1; i++)
+                            {
+                                if (i > 1 && i < ds3.PageCount)
+                                {
+                                    <li class="page-item @(i == ds3.PageNumber ? "active" : "")">
+                                        <a class="page-link" href="@Url.Action("Index", "Order", new { page3 = i, pageId = 3 })">@i</a>
+                                    </li>
+                                }
+                            }
+
+                            @if (ds3.PageNumber < ds3.PageCount - 2)
+                            {
+                                <li class="page-item">
+                                    <span class="page-link">...</span>
+                                </li>
+                            }
+
+                            @if (ds3.PageCount > 1)
+                            {
+                                <li class="page-item @(ds3.PageCount == ViewBag.Page3 ? "active" : "") ">
+                                    <a class="page-link" href="@Url.Action("Index", "Order", new { page3 = ds3.PageCount, pageId = 3 })">@ds3.PageCount</a>
+                                </li>
+                            }
+
+                            @if (ds3.HasNextPage)
+                            {
+
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", "Order", new { page3 = ds3.PageNumber + 1, pageId = 3 })"><i class="fa fa-angle-right"></i></a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
                 <table class="table table-bordered">
@@ -347,9 +544,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.Where(o => o.Status == "Hủy"))
+                        @foreach (var item in ds4)
                         {
-                            <tr>
+                            <tr id="trow_@item.OrderId">
                                 <td>
                                     @Html.DisplayFor(modelItem => item.OrderId)
                                 </td>
@@ -376,11 +573,95 @@
 
                                 <td>
                                     <a class="btn btn-success btn-tone m-r-5" asp-action="Details" asp-route-id="@item.OrderId">Chi tiết</a>
+                                    <a class="btn btn-danger btn-tone m-r-5 btnDelete" data-id="@item.OrderId" asp-route-id="@item.OrderId">Xóa</a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
+                <div class="col-sm-12 col-md-7">
+                    <p>Danh sách từ @ViewBag.PageStartItem4 đến @ViewBag.PageEndItem4 trên tổng số @ViewBag.TotalItemCount4 hóa đơn đã hủy</p>
+                    <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                        <ul class="pagination">
+                            @if (ds4.HasPreviousPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", "Order", new { page4 = ds4.PageNumber - 1, pageId = 4 })"><i class="fa fa-angle-left"></i></a>
+                                </li>
+
+                            }
+
+                            <li class="page-item @(1 == ViewBag.Page4 ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Index", "Order", new { page4 = 1, pageId = 4 })">1</a>
+                            </li>
+
+                            @if (ds4.PageNumber > 3)
+                            {
+                                <li class="page-item">
+                                    <span class="page-link">...</span>
+                                </li>
+                            }
+
+                            @for (int i = ds4.PageNumber - 1; i <= ds4.PageNumber + 1; i++)
+                            {
+                                if (i > 1 && i < ds4.PageCount)
+                                {
+                                    <li class="page-item @(i == ds4.PageNumber ? "active" : "")">
+                                        <a class="page-link" href="@Url.Action("Index", "Order", new { page4 = i, pageId = 4 })">@i</a>
+                                    </li>
+                                }
+                            }
+
+                            @if (ds4.PageNumber < ds4.PageCount - 2)
+                            {
+                                <li class="page-item">
+                                    <span class="page-link">...</span>
+                                </li>
+                            }
+
+                            @if (ds4.PageCount > 1)
+                            {
+                                <li class="page-item @(ds4.PageCount == ViewBag.Page4 ? "active" : "") ">
+                                    <a class="page-link" href="@Url.Action("Index", "Order", new { page4 = ds4.PageCount, pageId = 4 })">@ds4.PageCount</a>
+                                </li>
+                            }
+
+                            @if (ds4.HasNextPage)
+                            {
+
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", "Order", new { page4 = ds4.PageNumber + 1, pageId = 4 })"><i class="fa fa-angle-right"></i></a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('body').on('click', '.btnDelete', function () {
+                            var id = $(this).data("id");
+                            var cof = confirm('Bạn có muốn xóa đơn hàng này không?');
+                            if (cof === true) {
+                                $.ajax({
+                                    url: '/Admin/Orders/Delete',
+                                    type: 'POST',
+                                    data: { id: id },
+                                    success: function (response) {
+                                        if (response.success) {
+                                            $('#trow_' + id).remove();
+                                        } else {
+                                            alert(response.message);
+                                        }
+                                    },
+                                    error: function () {
+                                        alert('Đã xảy ra lỗi khi xử lý yêu cầu.');
+                                    }
+                                });
+                            }
+                        });
+                    });
+                </script>
             </div>
         </div>
     </div>

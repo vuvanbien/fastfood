@@ -13605,6 +13605,18 @@
       "PackagePath": "staticwebassets\\images\\logo.jpg"
     },
     {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\newlogo.png",
+      "PackagePath": "staticwebassets\\images\\newlogo.png"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\7up.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\7up.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\an-ga-ra-uong-gi-ngon.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\an-ga-ra-uong-gi-ngon.jpg"
+    },
+    {
       "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\banh-ga.jpg",
       "PackagePath": "staticwebassets\\images\\products\\banh-ga.jpg"
     },
@@ -13615,6 +13627,10 @@
     {
       "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\banh-mi-xuc-xich.jpg",
       "PackagePath": "staticwebassets\\images\\products\\banh-mi-xuc-xich.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\banh-trung.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\banh-trung.jpg"
     },
     {
       "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\cach-an-ga-ran-khong-map.jfif",
@@ -13639,6 +13655,10 @@
     {
       "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\ga-lac-pho-mai.jpg",
       "PackagePath": "staticwebassets\\images\\products\\ga-lac-pho-mai.jpg"
+    },
+    {
+      "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\ga-ran-bao-nhieu-calo.jpg",
+      "PackagePath": "staticwebassets\\images\\products\\ga-ran-bao-nhieu-calo.jpg"
     },
     {
       "Id": "C:\\Users\\84366\\Desktop\\fastfood\\fastfood\\wwwroot\\images\\products\\hong-tra-sua.jpg",

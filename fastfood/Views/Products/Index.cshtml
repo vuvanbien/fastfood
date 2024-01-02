@@ -1,8 +1,9 @@
-﻿@model X.PagedList.IPagedList<fastfood.Models.Product>
-@using X.PagedList.Mvc.Core;
-
+﻿@using X.PagedList
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    IPagedList<Product> dsfull = (IPagedList<Product>)ViewBag.PagedList;
+    IPagedList<Product> ds1 = (IPagedList<Product>)ViewBag.PagedList1;
+    IPagedList<Product> ds2 = (IPagedList<Product>)ViewBag.PagedList2;
 }
 
 
@@ -30,7 +31,7 @@
         <div class="container">
             
 
-            <h2 style="text-align: center; font-weight: bold;">Sản Phẩm</h2>
+            
             <div class="row">
 
                 <div class="col-lg-3 col-md-5">
@@ -51,22 +52,7 @@
                                     </div>
                                     <ul>
                                         @await Component.InvokeAsync("Category")
-                                        @* @if (Model != null && Model.Products != null)
-                                        {
-                                            // Tạo một danh sách các CateName duy nhất từ danh sách sản phẩm
-                                            var uniqueCategories = Model.Products
-                                            .Where(p => p.Cate != null)
-                                            .Select(p => p.Cate.CateName)
-                                            .Distinct();
-
-                                            // Hiển thị các CateName trong danh sách duy nhất
-                                            foreach (var categoryName in uniqueCategories)
-                                            {
-                                                <li>
-                                                    <a href="#">@categoryName</a>
-                                                </li>
-                                            }
-                                        } *@
+                                        
                                    
                                     </ul>
                                 </div>
@@ -96,34 +82,101 @@
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-7">
-                    <div class="product__discount">
-                   
-                    </div>
-                    
-                    <div class="filter__item">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-5">
-                                <div class="filter__sort">
-                                    <span>Sort By</span>
-                                    <select>
-                                        <option value="0">Default</option>
-                                        <option value="0">Default</option>
-                                    </select>
+                    <h2 style="text-align: center; font-weight: bold; margin-top:25px; margin-bottom:25px">Giảm giá</h2>
+                    <div class="row">
+                        @foreach (var item in ds1.Where(item => item.Active.HasValue && item.Active.Value))
+                        {
+                            string url = $"/{item.Title}-{item.ProId}.html";
+
+                            <div class="col-lg-4">
+                                <div class="product__discount__item">
+                                    <div class="product__discount__item__pic set-bg"
+                                         data-setbg="@Url.Content("~/images/products/" + item.Thumb)">
+                                        <div class="product__discount__percent">@item.Discount %</div>
+                                        <ul class="product__item__pic__hover">
+                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                            <li><a href="#" class="add-to-cart" data-product-id="@item.ProId"><i class="fa fa-shopping-cart"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="product__discount__item__text">
+                                        <h5><a href="@Url">@item.ProName</a></h5>
+                                        <div class="product__item__price">
+                                            @(item.Price - (item.Price * (item.Discount) / 100)) <span>@item.Price</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            
+                        }
+                    </div>
+                    <div class="col-sm-12 col-md-7">
+                        <p>Danh sách từ @ViewBag.PageStartItem1 đến @ViewBag.PageEndItem1 trên tổng số @ViewBag.TotalItemCount1 sản phẩm đang giảm giá</p>
+                        <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                            <ul class="pagination">
+                                @if (ds1.HasPreviousPage)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("Index", "Products", new { page1 = ds1.PageNumber - 1, pageId = 1 })"><i class="fa fa-angle-left"></i></a>
+                                    </li>
+
+                                }
+
+                                <li class="page-item @(1 == ViewBag.Page1 ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Index", "Products", new { page1 = 1, pageId = 1 })">1</a>
+                                </li>
+
+                                @if (ds1.PageNumber > 3)
+                                {
+                                    <li class="page-item">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+
+                                @for (int i = ds1.PageNumber - 1; i <= ds1.PageNumber + 1; i++)
+                                {
+                                    if (i > 1 && i < ds1.PageCount)
+                                    {
+                                        <li class="page-item @(i == ds1.PageNumber ? "active" : "")">
+                                            <a class="page-link" href="@Url.Action("Index", "Products", new { page1 = i, pageId = 1 })">@i</a>
+                                        </li>
+                                    }
+                                }
+
+                                @if (ds1.PageNumber < ds1.PageCount - 2)
+                                {
+                                    <li class="page-item">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+
+                                @if (ds1.PageCount > 1)
+                                {
+                                    <li class="page-item @(ds1.PageCount == ViewBag.Page1 ? "active" : "") ">
+                                        <a class="page-link" href="@Url.Action("Index", "Products", new { page1 = ds1.PageCount, pageId = 1 })">@ds1.PageCount</a>
+                                    </li>
+                                }
+
+                                @if (ds1.HasNextPage)
+                                {
+
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("Index", "Products", new { page1 = ds1.PageNumber + 1, pageId = 1 })"><i class="fa fa-angle-right"></i></a>
+                                    </li>
+                                }
+                            </ul>
                         </div>
                     </div>
+                   
+                    <h2 style="text-align: center; font-weight: bold; margin-top:25px; margin-bottom:25px">Sản phẩm</h2>
                     <div class="row">
-                        @if (Model != null && Model.Any(item => item.Active.HasValue && item.Active.Value))
-                        {
-                            foreach (var item in Model.Where(item => item.Active.HasValue && item.Active.Value))
+                        
+                        
+                           @foreach (var item in ds2.Where(item => item.Active.HasValue && item.Active.Value ))
                             {
                                 string url = $"/{item.Title}-{item.ProId}.html";
                                 <div class="col-lg-4 col-md-6 col-sm-6">
                                     <div class="product__item">
-                                        <div class="product__item__pic set-bg" data-setbg="@Url.Content("~/images/products/" + item.Thumb)" >
+                                        <div class="product__item__pic set-bg" data-setbg="@Url.Content("~/images/products/" + item.Thumb)">
                                             <ul class="product__item__pic__hover">
                                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                                 <li><a href="@Url.Action("Details", "Products", new { id = item.ProId })"><i class="fa fa-retweet"></i></a></li>
@@ -137,35 +190,69 @@
                                     </div>
                                 </div>
                             }
-                        }
-                        else
-                        {
-                            <p>Không có sản phẩm nào đang hoạt động.</p>
-                        }
+                        
+                        
                        
                     </div>
-                    <div class="" style="text-align:center">
-                        <ul class="pagination pagination-sm " style="text-align:center">
-                            <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-                                <a class="page-link" href="@Url.Action("Index", "Products", new { page = Model.PageNumber - 1 })">&laquo;</a>
-                            </li>
-                            @for (int i = 1; i <= Model.PageCount; i++)
-                            {
-                                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                                    <a class="page-link" href="@Url.Action("Index", "Products", new { page = i })">@i</a>
+                    <div class="col-sm-12 col-md-7">
+                        <p>Danh sách từ @ViewBag.PageStartItem2 đến @ViewBag.PageEndItem2 trên tổng số @ViewBag.TotalItemCount2 sản phẩm.</p>
+                        <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                            <ul class="pagination">
+                                @if (ds2.HasPreviousPage)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("Index", "Products", new { page2 = ds2.PageNumber - 1, pageId = 2 })"><i class="fa fa-angle-left"></i></a>
+                                    </li>
+
+                                }
+
+                                <li class="page-item @(1 == ViewBag.Page2 ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Index", "Products", new { page2 = 1, pageId = 2 })">1</a>
                                 </li>
-                            }
-                            <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-                                <a class="page-link" href="@Url.Action("Index", "Products", new { page = Model.PageNumber + 1 })">&raquo;</a>
-                            </li>
-                        </ul>
+
+                                @if (ds2.PageNumber > 3)
+                                {
+                                    <li class="page-item">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+
+                                @for (int i = ds2.PageNumber - 1; i <= ds2.PageNumber + 1; i++)
+                                {
+                                    if (i > 1 && i < ds2.PageCount)
+                                    {
+                                        <li class="page-item @(i == ds2.PageNumber ? "active" : "")">
+                                            <a class="page-link" href="@Url.Action("Index", "Products", new { page2 = i, pageId = 2 })">@i</a>
+                                        </li>
+                                    }
+                                }
+
+                                @if (ds2.PageNumber < ds2.PageCount - 2)
+                                {
+                                    <li class="page-item">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+
+                                @if (ds2.PageCount > 1)
+                                {
+                                    <li class="page-item @(ds2.PageCount == ViewBag.Page2 ? "active" : "") ">
+                                        <a class="page-link" href="@Url.Action("Index", "Products", new { page2 = ds2.PageCount, pageId = 2 })">@ds2.PageCount</a>
+                                    </li>
+                                }
+
+                                @if (ds2.HasNextPage)
+                                {
+
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("Index","Products", new { page2 = ds2.PageNumber + 1, pageId = 2 })"><i class="fa fa-angle-right"></i></a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
                     </div>
 
-                    <style>
-                        .current-page a {
-                            color: red;
-                        }
-                    </style>
+                    
                 </div>
             </div>
         </div>

@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using fastfood.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace fastfood.Areas.Admin.Controllers
 {
+    
     [Area("Admin")]
+    [Authorize(Roles = "quản lý")]
     public class RolesController : Controller
     {
         private readonly FoodshopContext _context;

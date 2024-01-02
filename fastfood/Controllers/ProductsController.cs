@@ -24,14 +24,32 @@ namespace fastfood.Controllers
 
         // GET: Products
         [HttpGet]
-        public IActionResult Index(int page = 1)
+        public IActionResult Index(int page1 = 1, int page2 = 1, int pageSize1 = 3,int pageSize2 = 6 ,int pageId = 1)
         {
-            page = page < 1 ? 1 : page;
-            int pageSize = 9;
+            var query = _context.Products.Include(p => p.Cate).ToList();
+            // Giảm giá
+            var query1 = query.Where(o => o.Discount != null && o.Discount != 0);
+            var pagedList1 = query1.ToPagedList(page1, pageSize1);
+            var totalItemCount1 = query1.Count();
+            ViewBag.PageStartItem1 = (page1 - 1) * pageSize1 + 1;
+            ViewBag.PageEndItem1 = Math.Min(page1 * pageSize1, totalItemCount1);
+            ViewBag.TotalItemCount1 = totalItemCount1;
+            ViewBag.PagedList1 = pagedList1;
 
-            var productsPagedList =_context.Products.ToPagedList(page, pageSize);
+            // Không giảm
+            var query2 = query.Where(o => o.Discount == null || o.Discount == 0);
+            var pagedList2 = query2.ToPagedList(page2, pageSize2);
+            var totalItemCount2 = query2.Count();
+            ViewBag.PageStartItem2 = (page2 - 1) * pageSize2 + 1;
+            ViewBag.PageEndItem2 = Math.Min(page2 * pageSize2, totalItemCount2);
+            ViewBag.TotalItemCount2 = totalItemCount2;
+            ViewBag.PagedList2 = pagedList2;
 
-            return View(productsPagedList);
+            ViewBag.Page1 = page1;
+            ViewBag.Page2 = page2;
+            ViewBag.PageId = pageId;
+
+            return View();
         }
         [HttpPost]
         public IActionResult Search(string keywords, int page = 1)

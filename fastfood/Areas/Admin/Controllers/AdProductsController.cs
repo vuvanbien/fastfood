@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using fastfood.Models;
+using fastfood.Models.ViewModel;
 using X.PagedList.Mvc.Core;
 using System.Drawing.Printing;
 using X.PagedList;
@@ -13,6 +14,7 @@ using fastfood.Helpper;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
+
 
 namespace fastfood.Areas.Admin.Controllers
 {
@@ -31,44 +33,62 @@ namespace fastfood.Areas.Admin.Controllers
 
         // GET: Admin/AdProducts
         [HttpGet]
-        public async Task<IActionResult> Index(string searchInput, double? to, double? from, int page = 1)
+        public async Task<IActionResult> Index(string searchTen, string lsp,  double minban, double maxban,  int page = 1, int pageSize = 5)
         {
-            page = page < 1 ? 1 : page;
-            int pageSize = 4;
+            ViewBag.ListLoaiSp = await _context.Categories.ToListAsync();
+          
 
-            var productsQuery = _context.Products.Include(p=>p.Cate).AsQueryable();
+            // Get data
+            var query = from sp in _context.Products         
+                        join ls in _context.Categories on sp.CateId equals ls.CateId
+                        select new ProductViewModel()
+                        {
+                            ProId = sp.ProId,
+                            ProName= sp.ProName,
+                            ShortDesc = sp.ShortDesc,                          
+                            Price = sp.Price,                          
+                            Thumb = sp.Thumb,                           
+                            CateId = ls.CateId,
+                            CateName = ls.CateName,
+                            Discount = sp.Discount,
+                            Active = sp.Active,
+                            Hot  = sp.Hot,
+                            Cate = sp.Cate,
+                        };
 
-                if (!string.IsNullOrEmpty(searchInput))
-                {
-                    productsQuery = productsQuery.Where(x => x.ProName.Contains(searchInput));
-                }
+            // Search
+            if (!string.IsNullOrEmpty(searchTen))
+                query = query.Where(s => s.ProName.Contains(searchTen, StringComparison.OrdinalIgnoreCase));
 
-                if (to != null && from != null)
-                {
-                    productsQuery = productsQuery.Where(x => x.Price >= to && x.Price <= from);
-                }
-                else if (to != null)
-                {
-                    productsQuery = productsQuery.Where(x => x.Price >= to);
-                }
-                else if (from != null)
-                {
-                    productsQuery = productsQuery.Where(x => x.Price <= from);
-                }
+            if (!string.IsNullOrEmpty(lsp))
+                query = query.Where(s => s.CateName == lsp);
+
+            
+            if (maxban != 0)
+            {
+                query = query.Where(item => item.Price < maxban && item.Price> minban);
+            }
+
             
 
-            var productsPagedList = await productsQuery.ToPagedListAsync(page, pageSize);
-
-            return View(productsPagedList);
+            var totalItemCount = query.Count();
+            var model = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var pagedList = new StaticPagedList<ProductViewModel>(model, page, pageSize, totalItemCount);
+            ViewBag.PageStartItem = (page - 1) * pageSize + 1;
+            ViewBag.PageEndItem = Math.Min(page * pageSize, totalItemCount);
+            ViewBag.TotalItemCount = totalItemCount;
+            ViewBag.Page = page;
+            ViewBag.searchTen = searchTen;
+            ViewBag.lsp = lsp;
+           
+            ViewBag.minban = minban;
+            ViewBag.maxban = maxban;
+            
+            return View(pagedList);
         }
        
 
-        public class ProductViewModel
-        {
-            public IPagedList<Product> Products { get; set; }
-            public int CateId { get; set; }
-            // Other properties...
-        }
+        
 
         // GET: Admin/AdProducts/Details/5
         public async Task<IActionResult> Details(int? id)

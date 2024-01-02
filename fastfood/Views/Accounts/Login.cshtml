@@ -15,16 +15,19 @@
     <script nonce="cf3e6024-78dd-4496-8bb0-8a6d367ab12f">(function (w, d) { !function (bb, bc, bd, be) { bb[bd] = bb[bd] || {}; bb[bd].executed = []; bb.zaraz = { deferred: [], listeners: [] }; bb.zaraz.q = []; bb.zaraz._f = function (bf) { return async function () { var bg = Array.prototype.slice.call(arguments); bb.zaraz.q.push({ m: bf, a: bg }) } }; for (const bh of ["track", "set", "debug"]) bb.zaraz[bh] = bb.zaraz._f(bh); bb.zaraz.init = () => { var bi = bc.getElementsByTagName(be)[0], bj = bc.createElement(be), bk = bc.getElementsByTagName("title")[0]; bk && (bb[bd].t = bc.getElementsByTagName("title")[0].text); bb[bd].x = Math.random(); bb[bd].w = bb.screen.width; bb[bd].h = bb.screen.height; bb[bd].j = bb.innerHeight; bb[bd].e = bb.innerWidth; bb[bd].l = bb.location.href; bb[bd].r = bc.referrer; bb[bd].k = bb.screen.colorDepth; bb[bd].n = bc.characterSet; bb[bd].o = (new Date).getTimezoneOffset(); if (bb.dataLayer) for (const bo of Object.entries(Object.entries(dataLayer).reduce(((bp, bq) => ({ ...bp[1], ...bq[1] })), {}))) zaraz.set(bo[0], bo[1], { scope: "page" }); bb[bd].q = []; for (; bb.zaraz.q.length;) { const br = bb.zaraz.q.shift(); bb[bd].q.push(br) } bj.defer = !0; for (const bs of [localStorage, sessionStorage]) Object.keys(bs || {}).filter((bu => bu.startsWith("_zaraz_"))).forEach((bt => { try { bb[bd]["z_" + bt.slice(7)] = JSON.parse(bs.getItem(bt)) } catch { bb[bd]["z_" + bt.slice(7)] = bs.getItem(bt) } })); bj.referrerPolicy = "origin"; bj.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(bb[bd]))); bi.parentNode.insertBefore(bj, bi) };["complete", "interactive"].includes(bc.readyState) ? zaraz.init() : bb.addEventListener("DOMContentLoaded", zaraz.init) }(w, d, "zarazData", "script"); })(window, document);</script>
 </head>
 <body class="hold-transition login-page">
+    <div class="login-logo">
+       
+        <a href="../../index2.html"> <img src="~/images/newlogo.png" style="width:20%" /><b style="font-weight:700">Chicken House</b></a>
+    </div>
     <div class="login-box">
-        <div class="login-logo">
-            <a href="../../index2.html"><b>Chicken House</b></a>
-        </div>
+        
 
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Đăng nhập để bắt đầu mua hàng</p>
                 @using(Html.BeginForm("Login","Accounts", FormMethod.Post))
                 {
+                    <span style="font-weight:700; margin-bottom:5px"><h8>Tên đăng nhập</h8></span>
                     <div class="input-group mb-3">
                         @Html.TextBoxFor(x=>x.UserName,new{@class="form-control", placeholder="Tên đăng nhập",required="required", autofocus="autofocus"})                      
                         <div class="input-group-append">
@@ -33,6 +36,7 @@
                             </div>
                         </div>
                     </div>
+                    <span style="font-weight:700; margin-bottom:5px"><h8>Mật khẩu</h8></span>
                     <div class="input-group mb-3">
                         @Html.PasswordFor(x => x.Password, new { @class = "form-control", placeholder = "Mật khẩu" })
 
@@ -52,21 +56,12 @@
                             </div>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-12">
                             <button type="submit" class="btn btn-primary btn-block">Đăng Nhập</button>
                         </div>
 
                     </div>
                 }
-                <div class="social-auth-links text-center mb-3">
-                    <p>- OR -</p>
-                    <a href="#" class="btn btn-block btn-primary">
-                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                    </a>
-                    <a href="#" class="btn btn-block btn-danger">
-                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                    </a>
-                </div>
 
                 <p class="mb-1">
                     <a href="forgot-password.html">Quên mật khẩu?</a>

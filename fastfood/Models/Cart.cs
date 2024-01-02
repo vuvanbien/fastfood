@@ -16,7 +16,7 @@
             }
         }
         public void RemoveLine(Product product) => Lines.RemoveAll(l => l.Product.ProId == product.ProId);
-        public double? ComputeTotalValue() => (double)Lines.Sum(e => e.Product.Price * e.Quantity);
+        public double? ComputeTotalValue() => (double)Lines.Sum(e =>( e.Product.Price-(e.Product.Price*e.Product.Discount)/100)* e.Quantity);
         public void Clear() => Lines.Clear();
     }
     public class CartLine

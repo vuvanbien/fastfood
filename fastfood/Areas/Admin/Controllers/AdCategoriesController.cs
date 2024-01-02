@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using fastfood.Models;
 using X.PagedList;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace fastfood.Areas.Admin.Controllers
 {
@@ -58,6 +59,7 @@ namespace fastfood.Areas.Admin.Controllers
         }
 
         // GET: Admin/AdCategories/Create
+        [Authorize(Roles ="quản lý")]
         public IActionResult Create()
         {
             return View();
@@ -68,6 +70,7 @@ namespace fastfood.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "quản lý")]
         public async Task<IActionResult> Create([Bind("CateId,CateName,Status,Sort,ParentId,Metakeyword,MetaDesc,CreateBy,CreateDate,UpdateBy,UpdateDate")] Category category)
         {
             if (ModelState.IsValid)
@@ -80,6 +83,7 @@ namespace fastfood.Areas.Admin.Controllers
         }
 
         // GET: Admin/AdCategories/Edit/5
+        [Authorize(Roles = "quản lý")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Categories == null)
@@ -100,6 +104,7 @@ namespace fastfood.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "quản lý")]
         public async Task<IActionResult> Edit(int id, [Bind("CateId,CateName,Status,Sort,ParentId,Metakeyword,MetaDesc,CreateBy,CreateDate,UpdateBy,UpdateDate")] Category category)
         {
             if (id != category.CateId)
@@ -131,6 +136,7 @@ namespace fastfood.Areas.Admin.Controllers
         }
 
         // GET: Admin/AdCategories/Delete/5
+        [Authorize(Roles = "quản lý")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Categories == null)
@@ -163,6 +169,7 @@ namespace fastfood.Areas.Admin.Controllers
         // POST: Admin/AdCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "quản lý")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Categories == null)

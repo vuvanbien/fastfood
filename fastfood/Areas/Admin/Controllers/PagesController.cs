@@ -142,33 +142,50 @@ namespace fastfood.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PageId,PageName,Contents,Thumb,Title,CreateDate")] Page page)
+        public async Task<IActionResult> Edit(int id, [Bind("PageId,PageName,Contents,Thumb,Title,CreateDate")] Page page, IFormFile? fThumb)
         {
             if (id != page.PageId)
             {
                 return NotFound();
             }
 
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                // Thêm logic xử lý lỗi nếu cần
+            }
+
+            // Kiểm tra điều kiện không đáp ứng cho việc cần cập nhập ảnh đại diện hoặc nhập đúng giá trị
+            if (ModelState.IsValid && (fThumb == null || string.IsNullOrEmpty(page.PageName)))
+            {
+                // Xử lý khi ModelState không hợp lệ
+                _notifyService.Error("Cần cập nhập ảnh đại diện hoặc nhập đúng giá trị");
+               
+                return View(page);
+            }
+
             if (ModelState.IsValid)
             {
-                try
+                page.PageName = Utilities.ToTitleCase(page.PageName);
+
+                // Xử lý upload hình ảnh
+                if (fThumb != null)
                 {
-                    _context.Update(page);
-                    await _context.SaveChangesAsync();
+                    string extension = Path.GetExtension(fThumb.FileName);
+                    string image = Utilities.SEOUrl(page.PageName) + extension;
+                    page.Thumb = await Utilities.UploadFile(fThumb, @"products", image.ToLower());
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PageExists(page.PageId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+
+                // Thêm sản phẩm vào cơ sở dữ liệu
+                _context.Update(page);
+                await _context.SaveChangesAsync();
+
+                _notifyService.Success("Cập nhật thành công");
                 return RedirectToAction(nameof(Index));
             }
+
+            _notifyService.Error("Cần cập nhập ảnh đại diện hoặc nhập đúng giá trị");
+            
             return View(page);
         }
 

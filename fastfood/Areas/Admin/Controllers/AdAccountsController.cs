@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using fastfood.Models;
 using X.PagedList;
+using Microsoft.AspNetCore.Authorization;
 
 namespace fastfood.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "quản lý")]
     public class AdAccountsController : Controller
     {
         private readonly FoodshopContext _context;

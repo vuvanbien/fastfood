@@ -35,7 +35,7 @@
                                         <h5>@line.Product.ProName</h5>
                                     </td>
                                         <td class="shoping__cart__price" style="width:150px">
-                                       @line.Product.Price VND
+                                       @(line.Product.Price - (line.Product.Price*line.Product.Discount)/100)VND
                                     </td>
                                     <td class="shoping__cart__quantity" style="width:200px">
                                         <div class="quantity">
@@ -45,7 +45,7 @@
                                         </div>
                                         </td>
                                     <td class="shoping__cart__total" style="width:200px">
-                                       @(line.Product.Price * line.Quantity) VND
+                                            @((line.Product.Price - (line.Product.Price * line.Product.Discount) / 100) * line.Quantity) VND
                                     </td>
                                     <td class="shoping__cart__item__close" style="display: flex; justify-content: center; align-items: center;">
                                         <a asp-controller="Cart" asp-action="Remove" asp-route-ProId="@line.Product.ProId">

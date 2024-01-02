@@ -36,9 +36,18 @@
                                             <input asp-for="PageName" class="form-control" />
                                             <span asp-validation-for="PageName" class="text-danger"></span>
                                         </div>
+                                        <style>
+                                           
+                                            #content {
+                                                
+                                                white-space: pre-line; /* Bảo toàn dấu xuống dòng và khoảng trắng */
+                                                
+                                            }
+                                        </style>
+
                                         <div class="form-group">
                                             <label asp-for="Contents" class="control-label">Nội dung</label>
-                                            <textarea asp-for="Contents" id="content" class="form-control"></textarea>
+                                            <textarea asp-for="Contents" id="content" class="form-control" rows="10"></textarea>
                                             <span asp-validation-for="Contents" class="text-danger"></span>
                                         </div>
                                     </div>
@@ -47,7 +56,7 @@
                                         <div class="row">
                                             <div class="col-md12">
                                                 <div class="form-group">
-                                                    <label for="exampleInputFile">Hình ảnh sản phẩm</label>
+                                                    <label for="exampleInputFile">Hình ảnh tin tức</label>
                                                     <div class="input-group">
                                                         <div class="custom-file">
                                                             <input name="fThumb" asp-for="Thumb" type="file" class="custom-file-input" id="exampleInputFile" onchange="displayImage(this)">

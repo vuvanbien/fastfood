@@ -1,6 +1,7 @@
 ﻿using fastfood.Infrastructure;
 using fastfood.Models;
 using fastfood.Models.CheckOut;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Linq;
 
 namespace fastfood.Controllers
 {
+    [Authorize(Roles = "khách hàng")]
     public class CheckOutController : Controller
     {
         public Cart? Cart { get; set; }
